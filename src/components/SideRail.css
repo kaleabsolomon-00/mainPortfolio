@@ -23,9 +23,9 @@
   pointer-events: auto; /* ...but the links inside it work */
 }
 
-/* Light pages need dark rail text. :has() checks which theme the page uses,
-   so pages never need to tell the rail anything. */
-body:has(.theme-light) .rail {
+/* Light pages need dark rail text. Each page carries its own rail, so we
+   check the theme of the page it sits in. */
+.screen:has(.theme-light) .rail {
   color: var(--plum);
 }
 

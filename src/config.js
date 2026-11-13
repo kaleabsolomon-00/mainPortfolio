@@ -5,18 +5,19 @@
    ========================================================================== */
 
 const config = {
-  /* ---- Page transition (the cream wipe) -------------------------------- */
+  /* ---- Page transition ---------------------------------------------------
+     1) the new page slides up from the bottom (coverMs)
+     2) THEN its contents rise in one after another (contentMs + staggerMs)   */
   transition: {
-    coverMs: 450, // time for the cream layer to slide up and cover the page
-    revealMs: 450, // time for it to slide away and reveal the new page
-    // Keep coverMs + revealMs under ~1000ms so the site never feels slow.
+    coverMs: 600, // how long the new page takes to slide up
+    contentMs: 600, // how long each piece of content takes to appear
+    staggerMs: 80, // gap between one piece of content and the next
   },
 
-  /* ---- Homepage menu hover effect -------------------------------------- */
+  /* ---- Homepage menu hover (italic lean) --------------------------------- */
   menuHover: {
-    shiftPx: 24, // how far a word slides to the side on hover
-    skewDeg: -6, // how much it leans (negative = leans right)
-    durationMs: 350,
+    skewDeg: -12, // lean angle. Negative leans right, like italics
+    durationMs: 300, // how fast the lean happens
   },
 };
 

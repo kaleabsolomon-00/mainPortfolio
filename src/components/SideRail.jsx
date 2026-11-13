@@ -7,16 +7,12 @@
    Text comes from content.js. Looks come from SideRail.css.
    ========================================================================== */
 
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import content from "../content.js";
-import TransitionLink from "./TransitionLink.jsx";
 import "./SideRail.css";
 
-export default function SideRail() {
-  const { pathname } = useLocation();
-  const isHome = pathname === "/";
-
+export default function SideRail({ isHome }) {
   return (
     <aside className="rail" aria-label="Site sidebar">
       <div className="rail__top">
@@ -35,9 +31,9 @@ export default function SideRail() {
           ))
         ) : (
           // Back-to-home link everywhere else
-          <TransitionLink to="/" className="rail__text label">
+          <Link to="/" className="rail__text label">
             Home
-          </TransitionLink>
+          </Link>
         )}
         <span className="rail__line" aria-hidden="true" />
       </div>

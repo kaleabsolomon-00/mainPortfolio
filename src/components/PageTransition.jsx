@@ -1,104 +1,139 @@
 /* ==========================================================================
    PAGE TRANSITION
-   Provides the "cream wipe" between pages.
+   Shows the current page and, when the address changes, plays ONE transition:
 
-   How to use it anywhere in the app:
-     const goTo = useTransitionNavigate();
-     goTo("/about");
-   (Most of the time you won't call it directly, use <TransitionLink> instead.)
+     1. the NEW page slides up from the bottom, in its own background color
+     2. once it covers the screen, the old page is removed
+     3. the new page's contents (elements marked data-reveal) rise in
 
-   Timings come from src/config.js. Looks come from PageTransition.css.
+   The transition is driven by the URL, so links, the Back/Forward buttons
+   and typed addresses all behave the same way.
+
+   Numbers: src/config.js       Looks: PageTransition.css
    ========================================================================== */
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import config from "../config.js";
+import Layout from "./Layout.jsx";
 import "./PageTransition.css";
 
-const { coverMs, revealMs } = config.transition;
+const { coverMs, contentMs, staggerMs } = config.transition;
 
-/* Share the timings with CSS as variables. This runs once when the file loads,
-   so the very first page animation already knows its duration. */
+/* Share the timings with CSS as variables (runs once when the file loads) */
 const root = document.documentElement;
 root.style.setProperty("--cover-ms", `${coverMs}ms`);
-root.style.setProperty("--reveal-ms", `${revealMs}ms`);
+root.style.setProperty("--content-ms", `${contentMs}ms`);
+root.style.setProperty("--stagger-ms", `${staggerMs}ms`);
 
-const TransitionContext = createContext(null);
-
-/* Hook: returns a function that navigates WITH the wipe animation */
-export function useTransitionNavigate() {
-  const goTo = useContext(TransitionContext);
-  if (!goTo) {
-    throw new Error(
-      "useTransitionNavigate must be used inside <PageTransition>",
-    );
-  }
-  return goTo;
-}
-
-/* Visitors who prefer less motion skip the animation entirely */
+/* Visitors who prefer less motion get instant page changes */
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export function PageTransition({ children }) {
-  const navigate = useNavigate();
+/* "instant" because global.css enables smooth scrolling for the whole site */
+const scrollToTop = () =>
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
+export default function PageTransition({ pages }) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  // "idle" → "covering" → "revealing" → "idle"
-  const [phase, setPhase] = useState("idle");
+  // Unknown addresses fall back to the homepage
+  const path = pages[pathname] ? pathname : "/";
 
-  const busy = useRef(false); // blocks clicks while a transition is running
-  const timers = useRef([]); // so we can clean up if the component unmounts
+  const nextId = useRef(1); // unique id for every screen we create
+  const shownPath = useRef(path); // the page we last started showing
+  const timers = useRef([]); // pending timeouts, cleaned up on unmount
 
-  const later = (fn, ms) => {
-    timers.current.push(setTimeout(fn, ms));
-  };
+  /* A "screen" is one rendered page. Normally there is exactly one.
+     During a transition there are two: the old page, and the new page
+     sliding up over it.
+       status:  "current"  = a normal page in the document
+                "incoming" = the new page sliding up (fixed over the screen)
+       animated: should its contents play the rise-in animation?
+       revealStart: ms to wait before contents start (= slide duration)     */
+  const [screens, setScreens] = useState([
+    { id: 0, path, status: "current", animated: true, revealStart: 0 },
+  ]);
 
-  // Clear any pending timers when the app unmounts
+  // Typed a bad address? Send the visitor home.
+  useEffect(() => {
+    if (!pages[pathname]) navigate("/", { replace: true });
+  }, [pathname, pages, navigate]);
+
+  // The address changed → start a transition
+  useEffect(() => {
+    if (path === shownPath.current) return;
+    shownPath.current = path;
+
+    // No animation for visitors who asked for reduced motion
+    if (prefersReducedMotion()) {
+      scrollToTop();
+      setScreens([
+        {
+          id: nextId.current++,
+          path,
+          status: "current",
+          animated: false,
+          revealStart: 0,
+        },
+      ]);
+      return;
+    }
+
+    const id = nextId.current++;
+
+    // 1) add the new page on top; it slides up on its own
+    setScreens((prev) => [
+      ...prev,
+      { id, path, status: "incoming", animated: true, revealStart: coverMs },
+    ]);
+
+    // 2) when it has covered the screen, drop the old page(s) underneath.
+    //    The new page stays mounted, so its content animation keeps running.
+    timers.current.push(
+      setTimeout(() => {
+        scrollToTop();
+        setScreens((prev) =>
+          prev
+            .filter((screen) => screen.id >= id)
+            .map((screen) =>
+              screen.id === id ? { ...screen, status: "current" } : screen,
+            ),
+        );
+      }, coverMs + 50), // +50ms safety so the slide has fully finished
+    );
+  }, [path]);
+
+  // Clear pending timers if the app is torn down
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
-  const goTo = useCallback(
-    (path) => {
-      // Ignore clicks during a transition, or on the page we're already on
-      if (busy.current || path === pathname) return;
-
-      // Accessibility: no animation, just go
-      if (prefersReducedMotion()) {
-        navigate(path);
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      busy.current = true;
-      setPhase("covering"); // 1) cream layer slides up and covers the page
-
-      later(() => {
-        navigate(path); // 2) swap the page while it is hidden
-        window.scrollTo(0, 0);
-        setPhase("revealing"); // 3) cream layer slides away
-
-        later(() => {
-          setPhase("idle"); // 4) reset, ready for the next click
-          busy.current = false;
-        }, revealMs);
-      }, coverMs);
-    },
-    [navigate, pathname],
-  );
-
   return (
-    <TransitionContext.Provider value={goTo}>
-      {children}
-      {/* The cream layer itself. aria-hidden: it's purely decorative. */}
-      <div className={`wipe wipe--${phase}`} aria-hidden="true" />
-    </TransitionContext.Provider>
+    <>
+      {screens.map((screen) => {
+        const Page = pages[screen.path];
+
+        const className = [
+          "screen",
+          screen.animated && "screen--animated",
+          screen.status === "incoming" && "screen--incoming",
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        return (
+          <div
+            key={screen.id}
+            className={className}
+            style={{ "--reveal-start": `${screen.revealStart}ms` }}
+          >
+            <Layout path={screen.path}>
+              <Page />
+            </Layout>
+          </div>
+        );
+      })}
+    </>
   );
 }

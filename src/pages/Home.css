@@ -1,0 +1,77 @@
+/* ==========================================================================
+   HOME PAGE STYLES
+   Desktop: intro on the left, giant menu on the right.
+   Mobile:  menu on top, intro below.
+   ========================================================================== */
+
+.home {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) 1fr;
+  align-items: center;
+  gap: 4rem;
+  min-height: 100dvh;
+}
+
+/* ---- Intro (left column) ------------------------------------------------ */
+.home__intro {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end; /* sits at the bottom, like the reference */
+  display: grid;
+  gap: 1rem;
+  max-width: 22rem;
+}
+
+/* ---- Menu (right column) ------------------------------------------------ */
+.home__nav {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.home__link {
+  display: inline-block; /* needed so transforms work on the link */
+  font-family: var(--font-display);
+  font-size: var(--text-nav);
+  line-height: 1.05;
+  text-transform: uppercase;
+
+  /* The lean pivots on the BASELINE (bottom edge): the bottom of every letter
+     stays where it is and only the tops tilt right, like italics. */
+  transform-origin: center bottom;
+  transition:
+    transform var(--hover-ms, 300ms) var(--ease-out),
+    opacity var(--hover-ms, 300ms) var(--ease-out);
+}
+
+/* THE HOVER EFFECT: slant only, no movement.
+   - No (hover: hover) wrapper, so it also works on laptops that report no hover.
+   - The "-12deg" after the comma is a fallback, used if the value from
+     config.js doesn't arrive. */
+.home__link:hover,
+.home__link:focus-visible,
+.home__link:active {
+  transform: skewX(var(--skew, -12deg));
+}
+
+/* Dim the other words while one is hovered (delete this rule if you
+   prefer them to stay fully visible) */
+.home__nav ul:hover .home__link:not(:hover) {
+  opacity: 0.35;
+}
+
+/* ---- Mobile / tablet ---------------------------------------------------- */
+@media (max-width: 62rem) {
+  .home {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 3rem;
+  }
+  .home__nav {
+    grid-column: 1;
+    grid-row: 1; /* menu first */
+  }
+  .home__intro {
+    grid-column: 1;
+    grid-row: 2; /* intro below */
+  }
+}

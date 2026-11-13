@@ -1,42 +1,36 @@
 /* ==========================================================================
    PAGE TRANSITION STYLES
-   .wipe       = the full-screen cream layer
-   .route-view = wrapper around each page, fades its content in
+   .screen           = wrapper around one page (+ its side rail)
+   .screen--incoming = the new page while it slides up over the old one
+   [data-reveal]     = any element that should rise in after the slide.
+                       Use data-reveal="1" … "9"; the number sets the order.
    ========================================================================== */
 
-/* ---- The cream layer ---------------------------------------------------- */
-.wipe {
-  position: fixed;
+/* ---- 1) The new page slides up ------------------------------------------ */
+@keyframes screen-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.screen--incoming {
+  position: fixed; /* floats above the old page while it slides */
   inset: 0;
-  z-index: 100; /* above everything, including the side rail */
-  background: var(--milk);
-  pointer-events: none;
-  transform: translateY(100%); /* parked just below the screen */
-  will-change: transform;
+  z-index: 20; /* above the old page and its side rail */
+  overflow: hidden;
+  /* "backwards" = start off-screen, and leave no leftover transform at the end
+     (a leftover transform would break the fixed side rail) */
+  animation: screen-slide-up var(--cover-ms) var(--ease-in-out) backwards;
 }
 
-/* Phase 1: slide up from below and cover the screen */
-.wipe--covering {
-  transform: translateY(0);
-  transition: transform var(--cover-ms) var(--ease-in-out);
-  pointer-events: auto; /* block clicks mid-transition */
-}
-
-/* Phase 2: keep moving up and leave the screen */
-.wipe--revealing {
-  transform: translateY(-100%);
-  transition: transform var(--reveal-ms) var(--ease-in-out);
-  pointer-events: auto;
-}
-
-/* "idle" has no transition, so the layer snaps back below the screen
-   invisibly, ready for the next click. */
-
-/* ---- New page content --------------------------------------------------- */
-@keyframes content-in {
+/* ---- 2) Contents rise in after the slide -------------------------------- */
+@keyframes content-rise {
   from {
     opacity: 0;
-    transform: translateY(2rem);
+    transform: translateY(2.5rem);
   }
   to {
     opacity: 1;
@@ -44,14 +38,45 @@
   }
 }
 
-.route-view {
-  animation: content-in var(--reveal-ms) var(--ease-out) both;
-  /* Wait until the wipe is partly gone, so content arrives AFTER the cream */
-  animation-delay: calc(var(--reveal-ms) * 0.35);
+.screen--animated [data-reveal] {
+  animation: content-rise var(--content-ms) var(--ease-out) both;
+  /* wait for the slide to finish, then stagger by order */
+  animation-delay: calc(
+    var(--reveal-start, 0ms) + var(--order, 0) * var(--stagger-ms)
+  );
+}
+
+/* data-reveal="1" appears first, "2" next, and so on (up to 9) */
+[data-reveal="1"] {
+  --order: 0;
+}
+[data-reveal="2"] {
+  --order: 1;
+}
+[data-reveal="3"] {
+  --order: 2;
+}
+[data-reveal="4"] {
+  --order: 3;
+}
+[data-reveal="5"] {
+  --order: 4;
+}
+[data-reveal="6"] {
+  --order: 5;
+}
+[data-reveal="7"] {
+  --order: 6;
+}
+[data-reveal="8"] {
+  --order: 7;
+}
+[data-reveal="9"] {
+  --order: 8;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .route-view {
+  .screen--animated [data-reveal] {
     animation: none;
   }
 }

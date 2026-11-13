@@ -92,6 +92,19 @@ const content = {
     },
 
     cvUrl: "", // e.g. "/cv.pdf" (put the file in /public)
+    // Portrait shown beside your story. Put the file in /public/images/
+    // and write its path here. Leave "" to show a placeholder.
+    photo: "", // e.g. "/images/me.jpg"
+    photoAlt: "Portrait of Kaleab",
+
+    // Small section headings on the About page
+    labels: {
+      skills: "Skills",
+      education: "Education",
+      languages: "Languages",
+      kudos: "Kudos",
+      cv: "Download CV",
+    },
   },
 
   /* ---- Work (case studies) ----------------------------------------------
