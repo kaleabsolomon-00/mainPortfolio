@@ -1,0 +1,32 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   The single place to change the look of the whole site.
+   Every other CSS file uses these variables, never raw colors or sizes.
+   ========================================================================== */
+
+:root {
+  /* ---- Colors ---------------------------------------------------------- */
+  --plum: #381932; /* dark surface / dark text */
+  --milk: #fff3e6; /* light surface / light text */
+
+  /* ---- Fonts ----------------------------------------------------------- */
+  --font-display:
+    "Cinzel Decorative", serif; /* big headings, nav, project names */
+  --font-body: "PT Serif", Georgia, serif; /* paragraphs, labels */
+
+  /* ---- Type scale -------------------------------------------------------
+     clamp(min, fluid, max) lets text shrink smoothly on phones.          */
+  --text-body: clamp(1rem, 0.95rem + 0.3vw, 1.125rem); /* 16-18px: readable */
+  --text-small: 0.8125rem; /* labels, captions */
+  --text-h2: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+  --text-h1: clamp(2.5rem, 1.5rem + 5vw, 6.5rem);
+  --text-nav: clamp(2.75rem, 1.2rem + 8vw, 8rem); /* homepage menu */
+
+  /* ---- Spacing & layout ------------------------------------------------ */
+  --rail-width: 4.5rem; /* left vertical strip (HOME / © label) */
+  --content-max: 72rem; /* max width of page content */
+  --page-padding: clamp(1.25rem, 4vw, 4rem);
+
+  /* ---- Motion (CSS side; JS-side timings live in src/config.js) -------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* smooth, confident ease */
+}
