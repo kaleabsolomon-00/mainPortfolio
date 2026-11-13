@@ -1,0 +1,54 @@
+/* ==========================================================================
+   SIDE RAIL STYLES
+   ========================================================================== */
+
+.rail {
+  position: fixed;
+  inset: 0 auto 0 0; /* pinned to the left edge, full height */
+  width: var(--rail-width);
+  z-index: 10; /* above pages, below the cream wipe (100) */
+  padding: var(--page-padding) 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  color: var(--milk);
+  pointer-events: none; /* the empty strip never blocks clicks... */
+}
+
+.rail > *,
+.rail__top > * {
+  pointer-events: auto; /* ...but the links inside it work */
+}
+
+/* Light pages need dark rail text. :has() checks which theme the page uses,
+   so pages never need to tell the rail anything. */
+body:has(.theme-light) .rail {
+  color: var(--plum);
+}
+
+.rail__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Text turned sideways, reading bottom-to-top */
+.rail__text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transition: opacity 0.2s var(--ease-out);
+}
+a.rail__text:hover {
+  opacity: 0.6;
+}
+
+/* The thin decorative line under the top item */
+.rail__line {
+  width: 1px;
+  height: 6rem;
+  background: currentColor;
+}
