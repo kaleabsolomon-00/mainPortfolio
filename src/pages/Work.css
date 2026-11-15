@@ -1,0 +1,175 @@
+/* ==========================================================================
+   WORK PAGE STYLES
+   Desktop: intro on the left (sticky), project list on the right.
+   Mobile:  intro on top, list below.
+   ========================================================================== */
+
+.work {
+  display: grid;
+  grid-template-columns: minmax(14rem, 22rem) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ---- Intro (left) ------------------------------------------------------- */
+.work__title {
+  /* h1 for accessibility, styled as a small label like the reference */
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 62rem) {
+  .work__intro {
+    position: sticky;
+    top: var(--page-padding);
+    padding-top: 1.5rem;
+  }
+}
+
+/* ---- Project list (right) ----------------------------------------------- */
+.project {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+
+/* The big clickable row (reset button styles so it looks like plain type) */
+.project__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.25rem 0 1rem;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.project__title-wrap {
+  min-width: 0;
+}
+
+.project__name {
+  display: inline-block; /* needed so the lean transform works */
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 1rem + 4.5vw, 5rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+
+  /* Lean pivots on the baseline: letters stay put, tops tilt right */
+  transform-origin: center bottom;
+  transition: transform var(--hover-ms, 300ms) var(--ease-out);
+}
+
+/* THE HOVER EFFECT: same italic lean as the homepage menu */
+.project__head:hover .project__name,
+.project__head:focus-visible .project__name {
+  transform: skewX(var(--skew, -12deg));
+}
+
+.project__meta {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+/* "+" that rotates into "×" when the project is open */
+.project__toggle {
+  flex-shrink: 0;
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.4s var(--ease-out);
+}
+.project--open .project__toggle {
+  transform: rotate(45deg);
+}
+
+/* ---- Expandable case study ---------------------------------------------
+   Animating grid rows from 0fr to 1fr lets it open smoothly to its natural
+   height (no fixed heights to maintain).
+   visibility:hidden keeps closed content out of tab order and screen readers. */
+.project__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.5s var(--ease-out),
+    visibility 0s 0.5s; /* hide only AFTER it has finished closing */
+}
+.project--open .project__panel {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 0.5s var(--ease-out),
+    visibility 0s 0s; /* show immediately when opening */
+}
+.project__panel-inner {
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* THE FIX: minmax(0, 1fr) lets columns shrink below their content's width,
+   so a big screenshot can no longer push the text out of view. */
+.project__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding: 0.5rem 0 3rem;
+}
+@media (min-width: 48rem) {
+  .project__body--with-image {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.project__media {
+  min-width: 0;
+  align-self: start; /* image keeps its own proportions, never stretched */
+}
+.project__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10; /* every screenshot gets the same tidy frame */
+  object-fit: cover; /* crops to fill it. Use "contain" to show it whole */
+  border-radius: 0.25rem;
+}
+
+.project__text {
+  display: grid;
+  gap: 1.75rem;
+  align-content: start;
+}
+
+.project__story {
+  display: grid;
+  gap: 1.25rem;
+}
+.project__story dt {
+  margin-bottom: 0.25rem;
+  opacity: 0.7;
+}
+
+.project__stack-label {
+  margin-bottom: 0.6rem;
+  opacity: 0.7;
+}
+
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+/* ---- Mobile / tablet ---------------------------------------------------- */
+@media (max-width: 62rem) {
+  .work {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
