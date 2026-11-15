@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import config from "../config.js";
 import Layout from "./Layout.jsx";
+import content from "../content.js";
 import "./PageTransition.css";
 
 const { coverMs, contentMs, staggerMs } = config.transition;
@@ -34,6 +35,25 @@ const prefersReducedMotion = () =>
 /* "instant" because global.css enables smooth scrolling for the whole site */
 const scrollToTop = () =>
   window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+/* Browser tab title for each page, built from content.js:
+   "About | Kaleab", and "Kaleab | Software Engineer" for the homepage */
+const titleFor = (path) => {
+  const item = content.nav.find((entry) => entry.path === path);
+  return item
+    ? `${item.label} | ${content.site.name}`
+    : `${content.site.name} | ${content.site.role}`;
+};
+
+/* Move keyboard focus to the new page after a transition. Without this, the
+   link you pressed disappears and keyboard / screen-reader users lose their
+   place. The newest <main> on screen is the page we just navigated to. */
+const focusNewPage = () => {
+  const mains = document.querySelectorAll(".screen main");
+  const main = mains[mains.length - 1];
+  if (!main) return;
+  main.setAttribute("tabindex", "-1"); // focusable by script, not by Tab
+  main.focus({ preventScroll: true });
+};
 
 export default function PageTransition({ pages }) {
   const { pathname } = useLocation();
@@ -62,7 +82,12 @@ export default function PageTransition({ pages }) {
     if (!pages[pathname]) navigate("/", { replace: true });
   }, [pathname, pages, navigate]);
 
-  // The address changed → start a transition
+  // Keep the browser tab title in sync with the current page
+  useEffect(() => {
+    document.title = titleFor(path);
+  }, [path]);
+
+  // Focus the new page after a transition
   useEffect(() => {
     if (path === shownPath.current) return;
     shownPath.current = path;
@@ -79,6 +104,7 @@ export default function PageTransition({ pages }) {
           revealStart: 0,
         },
       ]);
+      timers.current.push(setTimeout(focusNewPage, 50));
       return;
     }
 
@@ -102,6 +128,7 @@ export default function PageTransition({ pages }) {
               screen.id === id ? { ...screen, status: "current" } : screen,
             ),
         );
+        focusNewPage();
       }, coverMs + 50), // +50ms safety so the slide has fully finished
     );
   }, [path]);

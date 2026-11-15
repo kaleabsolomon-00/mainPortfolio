@@ -118,6 +118,11 @@ h2 {
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
+/* The page container receives focus after navigation (see PageTransition).
+   No outline needed there: it is not an interactive control. */
+main:focus {
+  outline: none;
+}
 
 /* Visually hidden but readable by screen readers */
 .sr-only {

@@ -12,6 +12,10 @@
 }
 
 /* ---- Intro (left) ------------------------------------------------------- */
+.lab__intro {
+  margin-bottom: 2rem;
+}
+
 .lab__title {
   margin-bottom: 1rem;
   font-size: clamp(3rem, 1.5rem + 6vw, 6rem);

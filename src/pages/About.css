@@ -39,7 +39,7 @@
   margin-bottom: 1.5rem;
 }
 .about__headline {
-  font-size: clamp(1.6rem, 1rem + 2.4vw, 2.75rem);
+  font-size: clamp(1.6rem, 1rem + 3.75vw, 3.25rem);
   max-width: 24ch;
 }
 
@@ -57,7 +57,7 @@
 .about__photo-fallback {
   display: grid;
   place-items: center;
-  background: rgb(255 243 230 / 0.08);
+  background: rgb(56 25 50 / 0.08);
   font-family: var(--font-display);
   font-size: 7rem;
 }
@@ -77,7 +77,7 @@
 /* Quote: big display type, the visual highlight of the page */
 .about__quote p:first-child {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 1rem + 2.6vw, 3rem);
+  font-size: clamp(1.6rem, 1rem + 2.6vw, 2.75rem);
   line-height: 1.2;
 }
 .about__quote-note {

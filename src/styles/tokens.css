@@ -6,13 +6,12 @@
 
 :root {
   /* ---- Colors ---------------------------------------------------------- */
-  --plum: #381932; /* dark surface / dark text */
-  --milk: #fff3e6; /* light surface / light text */
+  --plum: #171929; /* dark surface / dark text */
+  --milk: #dcd2a0; /* light surface / light text */
 
   /* ---- Fonts ----------------------------------------------------------- */
-  --font-display:
-    "Cinzel Decorative", serif; /* big headings, nav, project names */
-  --font-body: "PT Serif", Georgia, serif; /* paragraphs, labels */
+  --font-display: "Orbitron", sans-serif; /* big headings, nav, project names */
+  --font-body: "nova square", serif; /* paragraphs, labels */
 
   /* ---- Type scale -------------------------------------------------------
      clamp(min, fluid, max) lets text shrink smoothly on phones.          */

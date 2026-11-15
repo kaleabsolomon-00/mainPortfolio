@@ -22,7 +22,7 @@ export default function Lab() {
   };
 
   return (
-    <main className="page theme-dark lab">
+    <main className="page theme-light lab">
       {/* Left: title + intro */}
       <section className="lab__intro" data-reveal="1">
         <h1 className="lab__title">{title}</h1>

@@ -27,14 +27,11 @@ export default function About() {
   } = content.about;
 
   return (
-    <main className="page theme-dark about">
+    <main className="page theme-light about">
       <div className="about__grid">
         {/* ---- Title + headline ------------------------------------------ */}
         <header className="about__head">
-          <h1 className="about__title" data-reveal="1">
-            {title}
-          </h1>
-          <h2 className="about__headline" data-reveal="2">
+          <h2 className="about__headline" data-reveal="1">
             {headline}
           </h2>
         </header>
