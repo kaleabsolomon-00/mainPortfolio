@@ -1,0 +1,122 @@
+/* ==========================================================================
+   ABOUT PAGE STYLES
+   Desktop: text on the left, sticky portrait on the right.
+   Mobile:  title → portrait → text, in one column.
+   ========================================================================== */
+
+.about__grid {
+  display: grid;
+  gap: 3rem 5rem;
+  max-width: var(--content-max);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "head"
+    "photo"
+    "body";
+}
+
+@media (min-width: 62rem) {
+  .about__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 24rem);
+    grid-template-areas:
+      "head photo"
+      "body photo";
+    align-items: start;
+  }
+
+  /* The portrait stays in view while the text scrolls (desktop only) */
+  .about__photo {
+    position: sticky;
+    top: var(--page-padding);
+  }
+}
+
+/* ---- Title + headline --------------------------------------------------- */
+.about__head {
+  grid-area: head;
+}
+.about__title {
+  margin-bottom: 1.5rem;
+}
+.about__headline {
+  font-size: clamp(1.6rem, 1rem + 2.4vw, 2.75rem);
+  max-width: 24ch;
+}
+
+/* ---- Portrait ----------------------------------------------------------- */
+.about__photo {
+  grid-area: photo;
+  max-width: 24rem;
+}
+.about__photo img,
+.about__photo-fallback {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.about__photo-fallback {
+  display: grid;
+  place-items: center;
+  background: rgb(255 243 230 / 0.08);
+  font-family: var(--font-display);
+  font-size: 7rem;
+}
+
+/* ---- Text column -------------------------------------------------------- */
+.about__body {
+  grid-area: body;
+  display: grid;
+  gap: 3.5rem;
+  max-width: 40rem;
+}
+
+.about__intro p + p {
+  margin-top: 1rem;
+}
+
+/* Quote: big display type, the visual highlight of the page */
+.about__quote p:first-child {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 1rem + 2.6vw, 3rem);
+  line-height: 1.2;
+}
+.about__quote-note {
+  margin-top: 1.25rem;
+  opacity: 0.8;
+}
+
+/* ---- Sections ----------------------------------------------------------- */
+.about__section h2 {
+  margin-bottom: 1rem;
+}
+.about__subheading {
+  margin-top: 2rem;
+}
+.about__note {
+  opacity: 0.7;
+}
+
+.about__skills {
+  display: grid;
+  gap: 1.5rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+.about__group-title {
+  margin-bottom: 0.6rem;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.about__people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.about__cv {
+  margin-top: 2rem;
+}

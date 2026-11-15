@@ -142,6 +142,15 @@ const content = {
         image: "",
       },
     ],
+    // Labels used inside each project's case study
+    labels: {
+      problem: "Problem",
+      solution: "Solution",
+      result: "Result",
+      stack: "Stack",
+      live: "Live site",
+      repo: "Source code",
+    },
   },
 
   /* ---- Lab (experiments, notes, small builds) --------------------------- */
