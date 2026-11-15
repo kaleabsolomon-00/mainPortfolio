@@ -1,0 +1,87 @@
+/* ==========================================================================
+   LAB PAGE STYLES
+   Desktop: intro on the left (sticky), entries on the right.
+   Mobile:  intro on top, entries below.
+   ========================================================================== */
+
+.lab {
+  display: grid;
+  grid-template-columns: minmax(14rem, 22rem) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ---- Intro (left) ------------------------------------------------------- */
+.lab__title {
+  margin-bottom: 1rem;
+  font-size: clamp(3rem, 1.5rem + 6vw, 6rem);
+}
+
+@media (min-width: 62rem) {
+  .lab__intro {
+    position: sticky;
+    top: var(--page-padding);
+  }
+}
+
+/* ---- Entries (right) ---------------------------------------------------- */
+.entry {
+  display: grid;
+  gap: 0.75rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+.entry:first-child {
+  padding-top: 0;
+}
+
+.entry__date {
+  opacity: 0.7;
+}
+
+.entry__title {
+  font-size: clamp(1.6rem, 1rem + 2.5vw, 3rem);
+  line-height: 1.1;
+}
+
+.entry__link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.entry__name {
+  display: inline-block; /* needed so the lean transform works */
+  overflow-wrap: anywhere;
+
+  /* Lean pivots on the baseline: letters stay put, tops tilt right */
+  transform-origin: center bottom;
+  transition: transform var(--hover-ms, 300ms) var(--ease-out);
+}
+
+/* THE HOVER EFFECT: same italic lean as the homepage menu */
+.entry__link:hover .entry__name,
+.entry__link:focus-visible .entry__name {
+  transform: skewX(var(--skew, -12deg));
+}
+
+.entry__arrow {
+  font-size: 0.6em;
+  opacity: 0.7;
+}
+
+.entry__summary {
+  max-width: 40rem;
+}
+
+.lab__empty {
+  opacity: 0.7;
+}
+
+/* ---- Mobile / tablet ---------------------------------------------------- */
+@media (max-width: 62rem) {
+  .lab {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}

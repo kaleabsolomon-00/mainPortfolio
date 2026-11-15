@@ -32,7 +32,7 @@
   display: inline-block; /* needed so transforms work on the link */
   font-family: var(--font-display);
   font-size: var(--text-nav);
-  line-height: 1.05;
+  line-height: 1.15;
   text-transform: uppercase;
 
   /* The lean pivots on the BASELINE (bottom edge): the bottom of every letter

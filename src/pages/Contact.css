@@ -1,0 +1,67 @@
+/* ==========================================================================
+   CONTACT PAGE STYLES
+   A giant greeting with the details below it, centred vertically.
+   ========================================================================== */
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3rem;
+  min-height: 100dvh;
+}
+
+/* The giant "Hello." */
+.contact__title {
+  font-size: clamp(2.5rem, 1rem + 16vw, 10rem);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.contact__details {
+  display: grid;
+  gap: 2rem;
+  max-width: 36rem;
+}
+
+.contact__row {
+  display: grid;
+  gap: 0.5rem;
+}
+
+/* Email + copy button side by side (wraps on small screens) */
+.contact__email-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
+}
+.contact__email {
+  font-size: clamp(1.1rem, 0.9rem + 1vw, 1.5rem);
+  overflow-wrap: anywhere; /* long emails never overflow the screen */
+}
+
+/* Copy button: plain text, no box (reset default button styles) */
+.contact__copy {
+  padding: 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  color: inherit;
+  font-family: var(--font-body);
+  cursor: pointer;
+  opacity: 0.7;
+  transition:
+    opacity 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
+}
+.contact__copy:hover {
+  opacity: 1;
+  border-bottom-color: currentColor;
+}
+
+.contact__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+}

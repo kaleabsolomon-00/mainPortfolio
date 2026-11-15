@@ -158,6 +158,10 @@ const content = {
     title: "Lab",
     intro:
       "Small experiments, things I'm learning and notes from the process. Less polished, more curious.",
+    labels: {
+      view: "View", // link text on entries that have a url
+      empty: "Experiments coming soon.", // shown when `entries` is empty
+    },
     entries: [
       {
         id: "entry-one",
@@ -175,6 +179,13 @@ const content = {
   contact: {
     title: "Hello.",
     text: "Looking for a developer who builds things that work? I'd love to hear from you.",
+    // Small labels used on the Contact page
+    labels: {
+      email: "Email",
+      elsewhere: "Elsewhere",
+      copy: "Copy email",
+      copied: "Copied!",
+    },
     email: "your.email@example.com", // TODO: replace
     socials: [
       { label: "GitHub", url: "https://github.com/your-username" },
