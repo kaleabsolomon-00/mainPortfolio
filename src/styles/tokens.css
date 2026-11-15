@@ -20,7 +20,7 @@
   --text-small: 0.8125rem; /* labels, captions */
   --text-h2: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
   --text-h1: clamp(2.5rem, 1.5rem + 5vw, 6.5rem);
-  --text-nav: clamp(2.5rem, 1rem + 6vw, 7rem); /* homepage menu */
+  --text-nav: clamp(3rem, 1rem + 7.5vw, 8.5rem); /* homepage menu */
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1); /* page wipe */
 
   /* ---- Spacing & layout ------------------------------------------------ */

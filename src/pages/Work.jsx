@@ -131,8 +131,9 @@ export default function Work() {
   const { title, intro, projects, labels } = content.work;
   const { skewDeg, durationMs } = config.menuHover;
 
-  // Which project is open. The first one starts open; null = all closed.
-  const [openId, setOpenId] = useState(projects[0]?.id ?? null);
+  // Which project is open. null = all closed, so nothing is open until
+  // the visitor clicks a project name.
+  const [openId, setOpenId] = useState(null);
 
   // Hand the hover numbers to CSS as variables
   const listVars = {
