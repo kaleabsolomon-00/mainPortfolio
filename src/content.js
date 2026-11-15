@@ -117,7 +117,7 @@ const content = {
     projects: [
       {
         id: "project-one", // unique, no spaces
-        name: "Nilu",
+        name: "Nilupppp",
         category: "Full-stack web app",
         year: "2026",
         problem: "What problem does this project solve, and for whom?",
@@ -125,8 +125,8 @@ const content = {
         result: "What happened? Users, performance, what you learned.",
         stack: ["React", "Node.js", "MongoDB"],
         liveUrl: "https://opop.vercel.app", // link to the live site
-        repoUrl: "https://github.com/opopop", // link to the GitHub repo
-        image: "/src/images/nilu.png", // e.g. "/images/project-one.png"
+        repoUrl: "", // link to the GitHub repo
+        image: "/images/nilu.png", // e.g. "/images/project-one.png"
       },
       {
         id: "project-two",
