@@ -11,22 +11,33 @@ import { Link } from "react-router-dom";
 
 import content from "../content.js";
 import "./SideRail.css";
+import SocialIcon, { hasIcon } from "./SocialIcon.jsx";
 
 export default function SideRail({ isHome }) {
   return (
     <aside className="rail" aria-label="Site sidebar">
       <div className="rail__top">
         {isHome ? (
-          // Social links on the homepage
+          // Social links on the homepage: logo only
           content.contact.socials.map((social) => (
             <a
               key={social.label}
-              className="rail__text label"
+              className={
+                hasIcon(social.icon) ? "rail__icon" : "rail__text label"
+              }
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={social.label} // screen readers read the name
+              title={social.label} // tooltip on hover
             >
-              {social.label}
+              {/* If the icon name is missing or misspelled, the text shows
+                  instead, so a link never disappears */}
+              {hasIcon(social.icon) ? (
+                <SocialIcon name={social.icon} />
+              ) : (
+                social.label
+              )}
             </a>
           ))
         ) : (

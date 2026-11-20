@@ -52,3 +52,20 @@ a.rail__text:hover {
   height: 6rem;
   background: currentColor;
 }
+
+/* ---- Social icons (homepage rail) --------------------------------------- */
+.rail__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem; /* comfortable tap target */
+  height: 2.5rem;
+  font-size: 1.25rem; /* icon size: raise to 1.5rem for bigger logos */
+  transition:
+    transform 0.25s var(--ease-out),
+    opacity 0.2s var(--ease-out);
+}
+.rail__icon:hover,
+.rail__icon:focus-visible {
+  transform: scale(1.2);
+  opacity: 0.7;
+}

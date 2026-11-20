@@ -41,6 +41,7 @@
 .about__headline {
   font-size: clamp(1.6rem, 1rem + 3.75vw, 3.25rem);
   max-width: 24ch;
+  font-weight: 500;
 }
 
 /* ---- Portrait ----------------------------------------------------------- */

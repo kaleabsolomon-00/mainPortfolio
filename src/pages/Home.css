@@ -32,6 +32,7 @@
   display: inline-block; /* needed so transforms work on the link */
   font-family: var(--font-display);
   font-size: var(--text-nav);
+  font-weight: 500;
   line-height: 1.15;
   text-transform: uppercase;
 

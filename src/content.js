@@ -188,10 +188,26 @@ const content = {
     },
     email: "your.email@example.com", // TODO: replace
     socials: [
-      { label: "GitHub", url: "https://github.com/your-username" },
-      { label: "LinkedIn", url: "https://linkedin.com/in/your-username" },
-      // Add or remove as you like:
-      // { label: "Telegram", url: "https://t.me/your-username" },
+      {
+        label: "GitHub",
+        icon: "github",
+        url: "https://github.com/your-username",
+      },
+      {
+        label: "LinkedIn",
+        icon: "linkedin",
+        url: "https://linkedin.com/in/your-username",
+      },
+      {
+        label: "Telegram",
+        icon: "telegram",
+        url: "https://t.me/your-username",
+      },
+      {
+        label: "instagram",
+        icon: "instagram",
+        url: "https://instagram.com/your-username",
+      },
     ],
   },
 };
